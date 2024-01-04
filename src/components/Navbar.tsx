@@ -12,11 +12,12 @@ export default function Navbar({ session }: any) {
 	const [isOpen, setIsOpen] = useState(false)
 
 	const [isDark, setIsDark] = useState(
-		JSON.parse(localStorage.getItem('isDark') || 'false')
+		localStorage.getItem('isDark') === 'true'
 	)
 	useEffect(() => {
 		localStorage.setItem('isDark', JSON.stringify(isDark))
 	}, [isDark])
+
 	return (
 		<div className="container mx-auto">
 			<nav className="navbar h-auto px-4">
@@ -42,7 +43,10 @@ export default function Navbar({ session }: any) {
 						<Bars3Icon className="w-10 swap-off" />
 						<XMarkIcon className="h-10 swap-on" />
 					</label>
-					<NavLinks session={session} className="hidden md:flex md:gap-4" />
+					<NavLinks
+						session={session}
+						className="hidden md:flex md:gap-4 items-center"
+					/>
 				</div>
 			</nav>
 			<NavLinks

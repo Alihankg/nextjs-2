@@ -15,6 +15,18 @@ export const addSubject = async (data: FormData) => {
 export const getSubjects = () => {
 	return prisma.subject.findMany()
 }
+export const updateSubject = async (id: number, newTitle: string) => {
+	'use server'
+	await prisma.subject.update({
+		where: {
+			id,
+		},
+		data: {
+			title: newTitle,
+		},
+	})
+	revalidatePath('/subject')
+}
 
 export const deleteSubject = async (id: number) => {
 	'use server'
@@ -24,4 +36,14 @@ export const deleteSubject = async (id: number) => {
 		},
 	})
 	revalidatePath('/subject')
+}
+
+export const getSubjectNameById = async (id: number) => {
+	'use server'
+	const subject = await prisma.subject.findUnique({
+		where: {
+			id,
+		},
+	})
+	return subject?.title
 }

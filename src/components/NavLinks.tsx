@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 const defaultSiteRoutes = [
 	{
 		href: '/',
@@ -39,19 +38,14 @@ const noSessionRoutes = [
 ]
 
 export default function NavLinks({ session, ...props }: any) {
-	const pathname = usePathname()
 	const siteRoutes = defaultSiteRoutes.concat(
 		session ? sessionRoutes : noSessionRoutes
 	)
 	return (
-		<ul {...props}>
+		<ul {...props} className={`${props.className}`}>
 			{siteRoutes.map((siteRoute) => (
-				<li key={siteRoute.href}>
-					<Link
-						href={siteRoute.href}
-						className={`transition ${siteRoute.href === pathname ? '' : ''}`}>
-						{siteRoute.label}
-					</Link>
+				<li key={siteRoute.href} className="">
+					<Link href={siteRoute.href}>{siteRoute.label}</Link>
 				</li>
 			))}
 		</ul>
