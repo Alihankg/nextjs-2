@@ -1,6 +1,15 @@
-import { addTeacher, getTeachers, deleteTeacher } from './actions'
+import {
+	addTeacher,
+	getTeachers,
+	deleteTeacher,
+	updateTeacher,
+} from './TeacherActions'
 import TeacherItem from './TeacherItem'
-import { getSubjects, getSubjectNameById } from '../subject/actions'
+import { getSubjects, getSubjectNameById } from '../subject/SubjectActions'
+import Table from '@/components/Table'
+import CardForm from '@/components/cardForm/CardForm'
+import CardFormInput from '@/components/cardForm/CardFormInput'
+import CardFormSelect from '@/components/cardForm/CardFormSelect'
 
 export default async function Teachers() {
 	const teachers = await getTeachers()
@@ -8,63 +17,34 @@ export default async function Teachers() {
 	return (
 		<div className="flex flex-col gap-4">
 			<h1 className="text-2xl">Öğretmenler</h1>
-			<form
-				action={addTeacher}
-				className="card bg-base-200 p-4 flex flex-col gap-4 items-start">
-				<h2 className="card-title">Yeni Öğretmen</h2>
-				<label htmlFor="title">
-					Öğretmenin Adı ve Soyadı:{' '}
-					<input
-						type="text"
-						name="name"
-						className="input input-bordered"
-						placeholder="Yasin Çalışkan"
-						required
-					/>
-				</label>
-				<label htmlFor="subjectId">
-					Öğretmenin Branşı:{' '}
-					<select
-						name="subjectId"
-						id="subjectId"
-						className="select select-bordered">
-						{subjects.map((subject) => (
-							<option key={subject.id} value={subject.id}>
-								{subject.title}
-							</option>
-						))}
-					</select>
-				</label>
-
-				<button type="submit" className="btn bg-base-300">
-					Ekle
-				</button>
-			</form>
-			<div className="overflow-x-auto">
-				<table className="table bg-base-200">
-					<thead>
-						<tr>
-							<th>Öğretmen Adı</th>
-							<th>Branş</th>
-							<th>Seçenekler</th>
-						</tr>
-					</thead>
-					<tbody>
-						{teachers.map(async (teacher) => {
-							const subjectName = await getSubjectNameById(teacher.subjectId)
-							return (
-								<TeacherItem
-									key={teacher.id}
-									id={teacher.id}
-									subjectName={subjectName}
-									name={teacher.name}
-									deleteTeacher={deleteTeacher}
-								/>
-							)
-						})}
-					</tbody>
-				</table>
-			</div>
+			<CardForm title="Öğretmen Ekle" action={addTeacher} submitText="Ekle">
+				<CardFormInput label="Öğretmenin Adı ve Soyadı:" name="name" required />
+				<CardFormSelect label="Öğretmenin Branşı:" name="subjectId">
+					{subjects.map((subject) => (
+						<option key={subject.id} value={subject.id}>
+							{subject.title}
+						</option>
+					))}
+				</CardFormSelect>
+			</CardForm>
+			<Table
+				head={['Öğretmen Adı', 'Branş', 'Seçenekler']}
+				body={
+					teachers.map(async (teacher) => {
+						const subjectName = await getSubjectNameById(teacher.subjectId)
+						return (
+							<TeacherItem
+								key={teacher.id}
+								id={teacher.id}
+								subjectName={subjectName}
+								name={teacher.name}
+								updateTeacher={updateTeacher}
+								deleteTeacher={deleteTeacher}
+							/>
+						)
+					}) as Awaited<Promise<any>>
+				}
+			/>
 		</div>
 	)
 }

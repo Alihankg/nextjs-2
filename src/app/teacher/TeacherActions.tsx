@@ -1,4 +1,3 @@
-// Can you write the same actions for Teacher
 import { revalidatePath } from 'next/cache'
 import prisma from '../db'
 
@@ -28,6 +27,28 @@ export const deleteTeacher = async (id: number) => {
 	await prisma.teacher.delete({
 		where: {
 			id,
+		},
+	})
+	revalidatePath('/teacher')
+}
+
+export const updateTeacher = async (
+	id: number,
+	newName: string,
+	subjectId: number
+) => {
+	'use server'
+	await prisma.teacher.update({
+		where: {
+			id,
+		},
+		data: {
+			name: newName,
+			subject: {
+				connect: {
+					id: subjectId,
+				},
+			},
 		},
 	})
 	revalidatePath('/teacher')

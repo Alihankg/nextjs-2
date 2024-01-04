@@ -11,16 +11,25 @@ datasource db {
 }
 
 model Teacher {
-  id        Int     @id @default(autoincrement())
-  name      String
-  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  subjectId Int
+  id           Int           @id @default(autoincrement())
+  name         String
+  subject      Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId    Int
+  reservations Reservation[]
 }
 
 model Subject {
   id       Int       @id @default(autoincrement())
   title    String
   teachers Teacher[]
+}
+
+model Reservation {
+  id        Int      @id @default(autoincrement())
+  start     DateTime
+  end       DateTime
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId Int
 }
 
 // Authentication

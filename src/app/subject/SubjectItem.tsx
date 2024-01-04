@@ -1,11 +1,7 @@
 'use client'
-import {
-	TrashIcon,
-	PencilSquareIcon,
-	CheckIcon,
-	XMarkIcon,
-} from '@heroicons/react/16/solid'
-import { use, useState } from 'react'
+import ItemOptions from '@/components/ItemOptions'
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { useState } from 'react'
 
 type SubjectProps = any
 
@@ -57,22 +53,10 @@ export default function SubjectItem({
 					<span>{title}</span>
 				)}
 			</td>
-			<td className="flex gap-2">
-				<div className="tooltip" data-tip="Güncelle">
-					<button
-						className="md:scale-0 group-hover:scale-100 text-blue-500"
-						onClick={() => setIsEdit(!isEdit)}>
-						<PencilSquareIcon className="h-5" />
-					</button>
-				</div>
-				<div className="tooltip" data-tip="Sil">
-					<button
-						className="md:scale-0 group-hover:scale-100 text-red-500"
-						onClick={() => deleteSubject(id)}>
-						<TrashIcon className="h-5" />
-					</button>
-				</div>
-			</td>
+			<ItemOptions
+				onUpdate={() => setIsEdit(!isEdit)}
+				onDelete={() => deleteSubject(id)}
+			/>
 		</tr>
 	)
 }

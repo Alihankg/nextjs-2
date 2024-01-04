@@ -10,7 +10,7 @@ export default function Home() {
 					yapabilirsiniz.
 				</p>
 				<div className="card-actions">
-					<Link href={'/reservation/new'} className="btn btn-primary">
+					<Link href={'/reservation/new'} className="btn btn-outline">
 						Rezervasyon Yap
 					</Link>
 				</div>

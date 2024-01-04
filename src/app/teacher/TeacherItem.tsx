@@ -1,11 +1,11 @@
 'use client'
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/16/solid'
-import { getSubjectNameById } from '../subject/actions'
 
 type TeacherProps = {
 	id: number
 	name: string
 	subjectName?: string
+	updateTeacher: Function
 	deleteTeacher: Function
 }
 
@@ -13,6 +13,7 @@ export default function TeacherItem({
 	id,
 	name,
 	subjectName,
+	updateTeacher,
 	deleteTeacher,
 }: TeacherProps) {
 	const handleDelete = () => {

@@ -3,7 +3,7 @@ import Link from 'next/link'
 const defaultSiteRoutes = [
 	{
 		href: '/',
-		label: 'Home',
+		label: 'Anasayfa',
 	},
 ]
 
