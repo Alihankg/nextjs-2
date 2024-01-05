@@ -12,7 +12,7 @@ export default function CardFormSelect({
 	return (
 		<label htmlFor={name}>
 			{label}{' '}
-			<select name={name} className="select select-bordered">
+			<select name={name} className="select select-bordered ml-4">
 				{children}
 			</select>
 		</label>

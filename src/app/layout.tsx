@@ -16,7 +16,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
+		<html lang="tr">
 			<body className={inter.className + ' bg-base-100 h-screen'}>
 				<AuthProvider>
 					<Header className="bg-base-200" />

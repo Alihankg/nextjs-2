@@ -36,6 +36,7 @@ export default async function Teachers() {
 							<TeacherItem
 								key={teacher.id}
 								id={teacher.id}
+								availableSubjects={subjects}
 								subjectName={subjectName}
 								name={teacher.name}
 								updateTeacher={updateTeacher}

@@ -16,7 +16,7 @@ export default function CardForm({
 			action={action}
 			className="card bg-base-200 p-4 flex flex-col gap-4 items-start">
 			<h2 className="card-title">{title}</h2>
-			{children}
+			<div className="card-body">{children}</div>
 			<button type="submit" className="btn btn-outline">
 				{submitText}
 			</button>

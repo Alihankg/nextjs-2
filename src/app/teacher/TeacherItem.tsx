@@ -1,9 +1,16 @@
 'use client'
-import { TrashIcon, PencilSquareIcon } from '@heroicons/react/16/solid'
+import InlineEditForm from '@/components/InlineEditForm'
+import {
+	InlineEditFormInput,
+	InlineEditFormSelect,
+} from '@/components/InlineEditFormFields'
+import ItemOptions from '@/components/ItemOptions'
+import { useState } from 'react'
 
 type TeacherProps = {
 	id: number
 	name: string
+	availableSubjects: { id: number; title: string }[]
 	subjectName?: string
 	updateTeacher: Function
 	deleteTeacher: Function
@@ -12,29 +19,47 @@ type TeacherProps = {
 export default function TeacherItem({
 	id,
 	name,
+	availableSubjects,
 	subjectName,
 	updateTeacher,
 	deleteTeacher,
 }: TeacherProps) {
-	const handleDelete = () => {
-		deleteTeacher(id)
-	}
+	const [isEdit, setIsEdit] = useState(false)
+	const [newName, setNewName] = useState(name)
 	return (
 		<tr key={id} className="p-2 my-2 hover:bg-base-300 group relative">
-			<td className="w-1/3">{name}</td>
-			<td className="">{subjectName}</td>
-			<td className="flex gap-2">
-				<div className="tooltip" data-tip="Güncelle">
-					<button className="md:scale-0 group-hover:scale-100 text-blue-500">
-						<PencilSquareIcon className="h-5" />
-					</button>
-				</div>
-				<div className="tooltip" data-tip="Sil">
-					<button className="md:scale-0 group-hover:scale-100 text-red-500">
-						<TrashIcon className="h-5" />
-					</button>
-				</div>
-			</td>
+			{isEdit ? (
+				<InlineEditForm
+					action={updateTeacher}
+					isSubmitable={newName !== name}
+					onCancel={() => setIsEdit(!isEdit)}>
+					<td>
+						<InlineEditFormInput
+							name="title"
+							defaultValue={name}
+							onChange={(e: any) => setNewName(e.target.value)}
+						/>
+					</td>
+					<td>
+						<InlineEditFormSelect name="subjectId" defaultValue={subjectName}>
+							{availableSubjects.map((subject) => (
+								<option key={subject.id} value={subject.id}>
+									{subject.title}
+								</option>
+							))}
+						</InlineEditFormSelect>
+					</td>
+				</InlineEditForm>
+			) : (
+				<>
+					<td className="w-1/3">{name}</td>
+					<td className="">{subjectName}</td>
+				</>
+			)}
+			<ItemOptions
+				onUpdate={() => setIsEdit(!isEdit)}
+				onDelete={() => deleteTeacher(id)}
+			/>
 		</tr>
 	)
 }
