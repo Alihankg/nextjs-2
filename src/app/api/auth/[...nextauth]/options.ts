@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import Google from 'next-auth/providers/Google'
+import Google from 'next-auth/providers/google'
 
 export const getSession = async () => {
 	return await getServerSession(authOptions)
