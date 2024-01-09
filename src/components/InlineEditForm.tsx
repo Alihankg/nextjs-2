@@ -2,6 +2,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 
 type SubmitButtonsProps = {
 	isSubmitable: boolean
+	onSubmit?: Function
 	onCancel: () => void
 }
 
@@ -10,12 +11,17 @@ type InlineEditFormProps = SubmitButtonsProps & {
 	children: React.ReactNode
 }
 
-function SubmitButtons({ isSubmitable = true, onCancel }: SubmitButtonsProps) {
+export function SubmitButtons({
+	isSubmitable = true,
+	onSubmit,
+	onCancel,
+}: SubmitButtonsProps) {
 	return (
 		<>
 			<div className="tooltip flex items-center" data-tip="Onayla">
 				<button
 					type="submit"
+					onSubmit={onSubmit ? () => onSubmit() : undefined}
 					className={`text-green-500 ${isSubmitable ? '' : 'hidden'}`}>
 					<CheckIcon className="h-5" />
 				</button>

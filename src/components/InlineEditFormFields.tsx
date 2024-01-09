@@ -16,7 +16,7 @@ export function InlineEditFormSelect({
 	children: React.ReactNode
 }) {
 	return (
-		<select name="{name}" className="select select-bordered" {...props}>
+		<select name={name} className="select select-sm select-bordered" {...props}>
 			{children}
 		</select>
 	)

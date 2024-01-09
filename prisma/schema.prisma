@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -25,11 +25,23 @@ model Subject {
 }
 
 model Reservation {
-  id        Int      @id @default(autoincrement())
-  start     DateTime
-  end       DateTime
-  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
-  teacherId Int
+  id           Int      @id @default(autoincrement())
+  start        DateTime
+  end          DateTime
+  studentName  String?
+  studentClass String?
+  teacher      Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId    Int
+}
+
+enum Class {
+  A
+  B
+  C
+  D
+  E
+  F
+  G
 }
 
 // Authentication

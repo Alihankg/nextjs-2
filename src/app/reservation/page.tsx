@@ -1,26 +1,16 @@
-import CardForm from '@/components/cardForm/CardForm'
-import CardFormInput from '@/components/cardForm/CardFormInput'
+import { getTeachers } from '../teacher/TeacherActions'
+import { addReservation, getReservations } from './actions'
+import NewReservationForm from './NewReservationForm'
+import ReservationTable from './ReservationTable'
 
-export async function serverFunction(data: FormData) {
-	'use server'
-	console.log(data.get('date'))
-}
-
-export default function Reservation() {
+export default async function Reservation() {
+	const teachers = await getTeachers()
+	const reservations = await getReservations()
 	return (
 		<div className="flex flex-col gap-4">
 			<h1 className="text-2xl">Rezervasyonlar</h1>
-			<CardForm
-				title="Yeni Rezervasyon"
-				submitText="Rezervasyon Yap"
-				action={serverFunction}>
-				<CardFormInput
-					label="Rezervasyon Tarihi:"
-					name="date"
-					type="datetime-local"
-					required
-				/>
-			</CardForm>
+			<NewReservationForm teachers={teachers} addReservation={addReservation} />
+			<ReservationTable reservations={reservations} teachers={teachers} />
 		</div>
 	)
 }

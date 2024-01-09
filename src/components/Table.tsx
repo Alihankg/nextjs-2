@@ -1,9 +1,9 @@
 type TableProps = {
 	head: string[]
-	body: React.JSX.Element[]
+	children: React.ReactNode
 }
 
-export default function Table({ head, body }: TableProps) {
+export default function Table({ head, children }: TableProps) {
 	return (
 		<div className="overflow-x-auto">
 			<table className="table bg-base-200 flex">
@@ -14,7 +14,7 @@ export default function Table({ head, body }: TableProps) {
 						))}
 					</tr>
 				</thead>
-				<tbody>{body}</tbody>
+				<tbody>{children}</tbody>
 			</table>
 		</div>
 	)

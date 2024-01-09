@@ -8,6 +8,7 @@ import {
 } from './SubjectActions'
 import CardForm from '@/components/cardForm/CardForm'
 import CardFormInput from '@/components/cardForm/CardFormInput'
+import SubjectTable from './SubjectTable'
 
 export default async function Subject() {
 	const subjects = await getSubjects()
@@ -17,17 +18,10 @@ export default async function Subject() {
 			<CardForm title="Ders Ekle" submitText="Ekle" action={addSubject}>
 				<CardFormInput label="Ders Adı:" name="title" required />
 			</CardForm>
-			<Table
-				head={['Ders', 'Seçenekler']}
-				body={subjects.map((subject) => (
-					<SubjectItem
-						key={subject.id}
-						id={subject.id}
-						title={subject.title}
-						deleteSubject={deleteSubject}
-						updateSubject={updateSubject}
-					/>
-				))}
+			<SubjectTable
+				deleteSubject={deleteSubject}
+				updateSubject={updateSubject}
+				subjects={subjects}
 			/>
 		</div>
 	)

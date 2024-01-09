@@ -6,10 +6,14 @@ import {
 } from './TeacherActions'
 import TeacherItem from './TeacherItem'
 import { getSubjects, getSubjectNameById } from '../subject/SubjectActions'
-import Table from '@/components/Table'
 import CardForm from '@/components/cardForm/CardForm'
 import CardFormInput from '@/components/cardForm/CardFormInput'
 import CardFormSelect from '@/components/cardForm/CardFormSelect'
+import dynamic from 'next/dynamic'
+
+const Table = dynamic(() => import('@/components/Table'), {
+	ssr: false,
+})
 
 export default async function Teachers() {
 	const teachers = await getTeachers()
@@ -27,9 +31,8 @@ export default async function Teachers() {
 					))}
 				</CardFormSelect>
 			</CardForm>
-			<Table
-				head={['Öğretmen Adı', 'Branş', 'Seçenekler']}
-				body={
+			<Table head={['Öğretmen Adı', 'Branş', 'Seçenekler']}>
+				{
 					teachers.map(async (teacher) => {
 						const subjectName = await getSubjectNameById(teacher.subjectId)
 						return (
@@ -45,7 +48,7 @@ export default async function Teachers() {
 						)
 					}) as Awaited<Promise<any>>
 				}
-			/>
+			</Table>
 		</div>
 	)
 }

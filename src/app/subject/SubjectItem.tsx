@@ -1,47 +1,50 @@
-'use client'
-import InlineEditForm from '@/components/InlineEditForm'
-import { InlineEditFormInput } from '@/components/InlineEditFormFields'
 import ItemOptions from '@/components/ItemOptions'
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import type { Subject } from 'prisma/prisma-client'
 import { useState } from 'react'
 
-type SubjectProps = any
-
+type SubjectItemProps = {
+	subject: Subject
+	isEdit: boolean
+	onDelete: Function
+	onUpdate: Function
+	setIsEdit: Function
+}
 export default function SubjectItem({
-	id,
-	title,
-	deleteSubject,
-	updateSubject,
-}: SubjectProps) {
-	const [isEdit, setIsEdit] = useState(false)
-	const [newTitle, setNewTitle] = useState(title)
-
-	const handleUpdate = async (data: FormData) => {
-		const newTitle = data.get('title')
-		await updateSubject(id, newTitle)
-		setIsEdit(false)
+	subject,
+	isEdit,
+	setIsEdit,
+	onDelete,
+	onUpdate,
+}: SubjectItemProps) {
+	const initialFormData = {
+		title: subject.title,
 	}
+	const [formData, setFormData] = useState(initialFormData)
 	return (
-		<tr key={id} className="p-2 my-2 hover:bg-base-300 group relative">
-			<td className="w-1/3">
+		<tr key={subject.id} className="p-2 my-2 hover:bg-base-300 group relative">
+			<td>
 				{isEdit ? (
-					<InlineEditForm
-						action={handleUpdate}
-						isSubmitable={newTitle !== title}
-						onCancel={() => setIsEdit(!isEdit)}>
-						<InlineEditFormInput
-							name="title"
-							defaultValue={title}
-							onChange={(e) => setNewTitle(e.target.value)}
-						/>
-					</InlineEditForm>
+					<input
+						type="text"
+						className="input input-sm"
+						value={formData.title}
+						onChange={(e) => setFormData({ title: e.target.value })}
+					/>
 				) : (
-					<span>{title}</span>
+					subject.title
 				)}
 			</td>
+
 			<ItemOptions
-				onUpdate={() => setIsEdit(!isEdit)}
-				onDelete={() => deleteSubject(id)}
+				onEdit={() => setIsEdit(subject.id)}
+				onCancel={() => {
+					setIsEdit(null)
+					setFormData(initialFormData)
+				}}
+				isEdit={isEdit}
+				isSubmittable={formData.title !== subject.title}
+				onUpdate={onUpdate}
+				onDelete={onDelete}
 			/>
 		</tr>
 	)
